@@ -2,7 +2,7 @@
 
 = Introduction =
 
-http://android-batsg.googlecode.com/git/docs/images/ProportionalLayoutDemo.png
+http://android-batsg.googlecode.com/svn/trunk/docs/images/ProportionalLayoutDemo.png
 
 If you want to have a View (or ViewGroup) that has width/height is a fixed rate, [http://code.google.com/p/android-batsg/source/browse/android-batsg/src/com/chauhai/android/batsg/widget/ProportionalLayout.java ProportionalLayout] will help.
 

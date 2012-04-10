@@ -2,7 +2,7 @@
 
 = Introduction =
 
-http://android-batsg.googlecode.com/git/docs/images/SegmentedControlViewDemo.png
+http://android-batsg.googlecode.com/svn/trunk/docs/images/SegmentedControlViewDemo.png
 
 In Android, to implement a Segmented control like iPhone application, just use RadioGroup and RadioButton, and customize the RadioButtons' layout so that they appear like Segmented control buttons.
 

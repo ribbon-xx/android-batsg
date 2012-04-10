@@ -2,7 +2,7 @@
 
 = Introduction =
 
-http://android-batsg.googlecode.com/git/docs/images/ProportionalLayoutDemo.png
+http://android-batsg.googlecode.com/svn/trunk/docs/images/ProportionalLayoutDemo.png
 
 幅／高が固定の比例にしたいView又はViewGroupは、[http://code.google.com/p/android-batsg/source/browse/android-batsg/src/com/chauhai/android/batsg/widget/ProportionalLayout.java ProportionalLayout] で簡単に作れます.
 

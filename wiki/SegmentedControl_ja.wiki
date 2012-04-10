@@ -2,7 +2,7 @@
 
 = Introduction =
 
-http://android-batsg.googlecode.com/git/docs/images/SegmentedControlViewDemo.png
+http://android-batsg.googlecode.com/svn/trunk/docs/images/SegmentedControlViewDemo.png
 
 AndroidのRadioGroupとRadioButtonを使用して、RadioButtonの背景を指定するだけで、iPhoneのSegmented controlが実装できます。
 
