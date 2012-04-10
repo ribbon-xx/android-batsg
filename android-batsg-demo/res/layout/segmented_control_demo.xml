@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:segmented="http://schemas.android.com/apk/res/com.chauhai.android.batsg.demo"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <com.chauhai.android.batsg.widget.SegmentedControlView
+        android:id="@+id/segmented_control_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:checkedButton="@+id/button_first"
+        segmented:firstButtonBackground="@drawable/segmented_button_background_first"
+        segmented:lastButtonBackground="@drawable/segmented_button_background_last"
+        segmented:middleButtonBackground="@drawable/segmented_button_background_middle"
+        segmented:uniqueButtonBackground="@drawable/segmented_button_background_unique"
+        >
+        <RadioButton
+            android:id="@+id/button_first"
+            android:minWidth="70dp"
+            android:text="First"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+        <RadioButton
+            android:minWidth="70dp"
+            android:text="Long Middle Button"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+        <RadioButton
+            android:minWidth="70dp"
+            android:text="Last"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+    </com.chauhai.android.batsg.widget.SegmentedControlView>
+    <com.chauhai.android.batsg.widget.SegmentedControlView
+        android:id="@+id/segmented_control_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        segmented:uniqueButtonBackground="@drawable/segmented_button_background_unique"
+        >
+        <RadioButton
+            android:id="@+id/button_unique"
+            android:minWidth="70dp"
+            android:text="Only one button"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+    </com.chauhai.android.batsg.widget.SegmentedControlView>
+    <com.chauhai.android.batsg.widget.SegmentedControlView
+        android:id="@+id/segmented_control_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:checkedButton="@+id/button_2"
+        segmented:firstButtonBackground="@drawable/segmented_button_background_first"
+        segmented:lastButtonBackground="@drawable/segmented_button_background_last"
+        segmented:middleButtonBackground="@drawable/segmented_button_background_middle"
+        segmented:uniqueButtonBackground="@drawable/segmented_button_background_unique"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            >
+        <Button
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="First"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+        <Button
+            android:id="@+id/button_2"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Long Middle"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+        <Button
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Last"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/segmented_button_text" />
+            
+        </LinearLayout>
+    </com.chauhai.android.batsg.widget.SegmentedControlView>
+</LinearLayout>

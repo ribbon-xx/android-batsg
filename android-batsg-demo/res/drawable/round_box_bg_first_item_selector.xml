@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Make a rounded border for the first item. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/round_box_bg_first_item_selected" />
+    <item android:drawable="@drawable/round_box_bg_first_item" />
+</selector>

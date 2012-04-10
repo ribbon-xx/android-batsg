@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <Button
+        android:id="@+id/SplashActivity"
+        style="@style/ToDemoButton"
+        android:text="SplashActivity"
+        android:onClick="onClickButton"
+        />
+    <Button
+        android:id="@+id/GetLocation"
+        style="@style/ToDemoButton"
+        android:text="GetLocation"
+        android:onClick="onClickButton"
+        />
+    <Button
+        android:id="@+id/SegmentedControl"
+        style="@style/ToDemoButton"
+        android:text="SegmentedControl"
+        android:onClick="onClickButton"
+        />
+    <Button
+        android:id="@+id/ProportionalLayout"
+        style="@style/ToDemoButton"
+        android:text="ProportionalLayout"
+        android:onClick="onClickButton"
+        />
+    <Button
+        android:id="@+id/RoundedCornerImageView"
+        style="@style/ToDemoButton"
+        android:text="RoundedCornerImageView"
+        android:onClick="onClickButton"
+        />
+    <Button
+        android:id="@+id/RoundBox"
+        style="@style/ToDemoButton"
+        android:text="RoundBox"
+        android:onClick="onClickButton"
+        />
+</LinearLayout>
