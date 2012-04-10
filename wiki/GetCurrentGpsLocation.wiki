@@ -1,0 +1,9 @@
+#summary Get the current GPS location.
+
+= Introduction =
+
+Use [http://code.google.com/p/android-batsg/source/browse/android-batsg/src/com/chauhai/android/batsg/location/GetLocation.java GetLocation] to get the current GPS location and do something with it.
+
+= Details =
+
+See the class documentation for the detail. There is [http://code.google.com/p/android-batsg/source/browse/android-batsg-demo/src/com/chauhai/android/batsg/demo/location/GetLocationDemoActivity.java sample code here.]

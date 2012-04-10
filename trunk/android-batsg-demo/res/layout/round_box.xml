@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+    <LinearLayout
+        style="@style/RoundBoxItem"
+        android:id="@+id/first_button"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:background="@drawable/round_box_bg_first_item_selector"
+        >
+        <TextView
+            style="@style/RoundBoxItem.Title"
+            android:text="First item"
+            />
+        <TextView
+            style="@style/RoundBoxItem.Spinner"
+            android:id="@+id/first_button_spinner"
+            android:drawableRight="@drawable/list_item_right_arrow"
+            />
+    </LinearLayout>
+    <TextView
+        style="@style/RoundBoxItem.Spinner"
+        android:id="@+id/middle_button"
+        android:hint="年齢"
+        android:clickable="true"
+        android:onClick="onClickMiddleItem"
+        android:background="@drawable/round_box_bg_middle_item_selector"
+        />
+    <EditText
+        style="@style/RoundBoxItem.EditText"
+        android:hint="Input here"
+        android:background="@drawable/round_box_bg_last_item"
+        />
+</LinearLayout>

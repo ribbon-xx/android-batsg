@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="round_box_border">#c0c0c0</color>
+    <color name="round_box_item_gradient_start">#306EFF</color>
+    <color name="round_box_item_gradient_end">#2B60DE</color>
+</resources>

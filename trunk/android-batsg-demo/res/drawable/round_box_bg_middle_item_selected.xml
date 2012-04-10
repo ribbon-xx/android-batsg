@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Make a rounded border for the middle item, with the top opened. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:top="-2dp"><!-- Make the top border cleared. -->
+        <shape
+            android:shape="rectangle">
+            <gradient
+                android:startColor="@color/round_box_item_gradient_start"
+                android:endColor="@color/round_box_item_gradient_end"
+                android:angle="270"
+                />
+            <stroke
+                android:width="1dp"
+                android:color="@color/round_box_border" />
+        </shape>
+    </item>
+</layer-list>
