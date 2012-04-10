@@ -2,7 +2,7 @@
 
 = Introduction =
 
-http://android-batsg.googlecode.com/git/docs/images/RoundedCornerImageViewDemo.png
+http://android-batsg.googlecode.com/svn/trunk/docs/images/RoundedCornerImageViewDemo.png
 
 You have an ImageView with rounded corner by using [http://code.google.com/p/android-batsg/source/browse/android-batsg/src/com/chauhai/android/batsg/widget/RoundedCornerImageView.java RoundedCornerImageView] view.
 
