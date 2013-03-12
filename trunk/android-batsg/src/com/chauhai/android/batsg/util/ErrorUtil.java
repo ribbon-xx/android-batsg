@@ -2,6 +2,7 @@ package com.chauhai.android.batsg.util;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 
 /**
  * Utility functions on error.
@@ -41,12 +42,17 @@ public class ErrorUtil {
    * @param message
    * @param buttonTitle
    */
-  public static void alert(Context context, String title, String message, String buttonTitle) {
+  public static void alert(Context context, String title, String message,
+      String buttonTitle) {
+    alert(context, title, message, buttonTitle, null);
+  }
+
+  public static void alert(Context context, String title, String message,
+      String buttonTitle, DialogInterface.OnClickListener listener) {
     new AlertDialog.Builder(context)
         .setMessage(message)
         .setTitle(title)
-        .setPositiveButton(buttonTitle, null)
+        .setPositiveButton(buttonTitle, listener)
         .show();
   }
-
 }
