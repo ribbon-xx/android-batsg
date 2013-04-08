@@ -53,7 +53,9 @@ public class DebugUtil {
   /**
    * Log method calling of a method that call this m().
    * @param params The method calling parameters.
+   * @deprecated This method is deprecated because it has no meaning when obfuscating.
    */
+  @Deprecated
   public static void m(Object... params) {
     if (printLog) {
       CallerInfo callerInfo = new CallerInfo(2, params);
@@ -79,25 +81,43 @@ public class DebugUtil {
    * <p>
    * The Log.d() tag parameter is set to the caller class name.
    * @param msg
+   * @deprecated This method is deprecated because it has no meaning when obfuscating.
    */
+  @Deprecated
   public static void d(String msg) {
     if (printLog) {
       log(Log.DEBUG, msg);
     }
   }
 
+  /**
+   * @param msg
+   * @deprecated This method is deprecated because it has no meaning when obfuscating.
+   */
+  @Deprecated
   public static void i(String msg) {
     if (printLog) {
       log(Log.INFO, msg);
     }
   }
 
+  /**
+   * @param msg
+   * @deprecated This method is deprecated because it has no meaning when obfuscating.
+   */
+  @Deprecated
   public static void e(String msg) {
     if (printLog) {
       log(Log.ERROR, msg);
     }
   }
 
+  /**
+   * @param level
+   * @param msg
+   * @deprecated This method is deprecated because it has no meaning when obfuscating.
+   */
+  @Deprecated
   private static void log(int level, String msg) {
     if (printLog) {
       CallerInfo callerInfo = new CallerInfo(3, msg);
