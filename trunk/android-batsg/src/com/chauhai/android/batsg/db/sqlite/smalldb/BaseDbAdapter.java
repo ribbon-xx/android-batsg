@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.chauhai.android.batsg.db.sqlite.smalldb.BaseDbBean.CursorColumnIndex;
@@ -49,7 +50,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
   // Column names.
   public static final String COL_ID = "_id";
 
-  private BaseDbOpenHelper dbOpenHelper;
+  private SQLiteOpenHelper dbOpenHelper;
 
   protected Context context;
 
@@ -113,7 +114,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * </pre>
    * @return
    */
-  protected abstract BaseDbOpenHelper createDbOpenHelper();
+  protected abstract SQLiteOpenHelper createDbOpenHelper();
 
   /**
    * Get the DbBeanClassFactory object.

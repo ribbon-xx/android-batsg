@@ -43,19 +43,22 @@ public abstract class BaseDbOpenHelper extends SQLiteOpenHelper {
    * Get the directory that contains the source database file in the assets folder.
    * <p>
    * For example, if the source database file is <em>assets/db/company.sqlite</em>,
-   * then g<em>etDatabaseDir()</em> should return <em>db</em>.
+   * then <em>getAssetsDbDir()</em> should return <em>db</em>.
+   * Notice: Method name has been changed from getDatabaseDir to getAssetsDbDir.
    * @return
    */
-  public abstract String getDatabaseDir();
+  public abstract String getAssetsDbDir();
 
   /**
    * Get the source database file name.
    * <p>
    * For example, if the source database file is <em>assets/db/company.sqlite</em>,
-   * then g<em>getDatabaseName()</em> should return <em>company.sqlite</em>.
+   * then <em>getAssetsDbName()</em> should return <em>company.sqlite</em>.
+   * Notice: Method name has been changed from getDatabaseName to getAssetsDbName
+   * to avoid conflicting with same method name in API 14.
    * @return
    */
-  public abstract String getDatabaseName();
+  public abstract String getAssetsDbName();
 
   @Override
   public void onCreate(SQLiteDatabase db) {
@@ -133,7 +136,7 @@ public abstract class BaseDbOpenHelper extends SQLiteOpenHelper {
     Log.i(TAG, "Copy database to: " + outFileName);
 
     // Open the local db as the input stream
-    InputStream input = context.getAssets().open(getDatabaseDir() + "/" + getDatabaseName());
+    InputStream input = context.getAssets().open(getAssetsDbDir() + "/" + getAssetsDbName());
 
     // Open the current db as the output stream
     OutputStream output = new FileOutputStream(outFileName);
@@ -156,6 +159,6 @@ public abstract class BaseDbOpenHelper extends SQLiteOpenHelper {
    * @return
    */
   private String dbFilePath() {
-    return "/data/data/" + context.getPackageName() + "/databases/" + getDatabaseName();
+    return context.getFilesDir().getPath() + "/databases/" + getAssetsDbName();
   }
 }
