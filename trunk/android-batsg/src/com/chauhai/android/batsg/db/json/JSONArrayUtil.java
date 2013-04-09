@@ -1,7 +1,9 @@
 package com.chauhai.android.batsg.db.json;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +58,46 @@ public class JSONArrayUtil {
     }
 
     return list;
+  }
+
+  /**
+   * Map JSONArray of JSONObject by object's key.
+   * <p>
+   * A RuntimeException wraps the raised exception.
+   * @param json
+   * @param key
+   * @return
+   */
+  public static Map<Object, JSONObject> map(JSONArray json, String key) {
+    Map<Object, JSONObject> map = new HashMap<Object, JSONObject>(); // Result
+
+    List<JSONObject> list = jsonArrayToJSONObjectList(json);
+
+    for (JSONObject jsonObject: list) {
+      Object value = JSONObjectUtil.get(jsonObject, key);
+      map.put(value, jsonObject);
+    }
+    return map;
+  }
+
+  /**
+   * Map JSONArray of JSONObject by object's key.
+   * <p>
+   * A RuntimeException wraps the raised exception.
+   * @param json
+   * @param key
+   * @return
+   */
+  public static Map<Long, JSONObject> mapByLong(JSONArray json, String key) {
+    Map<Long, JSONObject> map = new HashMap<Long, JSONObject>(); // Result
+
+    List<JSONObject> list = jsonArrayToJSONObjectList(json);
+
+    for (JSONObject jsonObject: list) {
+      Long value = JSONObjectUtil.getLong(jsonObject, key);
+      map.put(value, jsonObject);
+    }
+    return map;
   }
 
   /**

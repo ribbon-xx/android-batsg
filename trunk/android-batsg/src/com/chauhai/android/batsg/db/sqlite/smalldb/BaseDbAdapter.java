@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -112,6 +113,17 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    *   return DbOpenHelper(context);
    * }
    * </pre>
+   * It's better to use static DbOpenHelper variable between DbAdapter classes.
+   * <pre>
+   * private static DbOpenHelper commonDbOpenHelper;
+   *
+   * public SQLiteOpenHelper createDbOpenHelper() {
+   *   if (commonDbOpenHelper == null) {
+   *     commonDbOpenHelper = new DbOpenHelper(context);
+   *   }
+   *   return commonDbOpenHelper;
+   * }
+   * </pre>
    * @return
    */
   protected abstract SQLiteOpenHelper createDbOpenHelper();
@@ -189,11 +201,11 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    */
   @SuppressWarnings("unchecked")
   public A open() throws SQLException {
-    Log.d(TAG, "open()");
     if (dbOpenHelper == null) {
       dbOpenHelper = createDbOpenHelper();
+      database = dbOpenHelper.getWritableDatabase();
     }
-    database = dbOpenHelper.getWritableDatabase();
+    Log.v(TAG, "open() " + database);
     return (A) this;
   }
 
@@ -292,7 +304,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param id Record id.
    * @return
    */
-  public B find(int id) {
+  public B find(long id) {
     String sql = "SELECT * FROM " + tableName() + " WHERE " + COL_ID + " = " + id; // SQL statement.
     return find(sql);
   }
@@ -307,7 +319,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      B find(Context context, Class<A> dbAdapterClass, int id) {
+      B find(Context context, Class<A> dbAdapterClass, long id) {
 
     A db = open(context, dbAdapterClass);
     B result = db.find(id);
@@ -367,9 +379,8 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public List<B> findAll(String sql, String[] selectionArgs) {
-    Log.d(TAG, "findAll(" + sql + ", " + DebugUtil.arrayToString(selectionArgs) + ")");
+    Log.v(TAG, "findAll(" + sql + ", " + DebugUtil.arrayToString(selectionArgs) + ")");
     List<B> result = new ArrayList<B>(); // Return value.
-    Log.d(TAG, "database: " + database);
     Cursor cursor = database.rawQuery(sql, selectionArgs);
     // Parse result.
     if (cursor != null) {
@@ -507,8 +518,8 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param selectionArgs
    * @return
    */
-  public Map<Integer, B> map(String sql, String[] selectionArgs) {
-    Map<Integer, B> result = new HashMap<Integer, B>(); // Return value.
+  public Map<Long, B> map(String sql, String[] selectionArgs) {
+    Map<Long, B> result = new HashMap<Long, B>(); // Return value.
     List<B> list = findAll(sql, selectionArgs);
     for (B bean: list) {
       result.put(bean._id, bean);
@@ -527,10 +538,10 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      Map<Integer, B> map(Context context, Class<A> dbAdapterClass, String sql, String[] selectionArgs) {
+      Map<Long, B> map(Context context, Class<A> dbAdapterClass, String sql, String[] selectionArgs) {
 
     A db = open(context, dbAdapterClass);
-    Map<Integer, B> result = db.map(sql, selectionArgs);
+    Map<Long, B> result = db.map(sql, selectionArgs);
     db.close();
     return result;
   }
@@ -540,7 +551,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param sql
    * @return
    */
-  public Map<Integer, B> map(String sql) {
+  public Map<Long, B> map(String sql) {
     return map(sql, null);
   }
 
@@ -554,7 +565,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      Map<Integer, B> map(Context context, Class<A> dbAdapterClass, String sql) {
+      Map<Long, B> map(Context context, Class<A> dbAdapterClass, String sql) {
 
     return map(context, dbAdapterClass, sql, null);
   }
@@ -563,7 +574,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * Get all records, map them by record id.
    * @return
    */
-  public Map<Integer, B> map() {
+  public Map<Long, B> map() {
     String sql = "SELECT * FROM " + tableName(); // SQL statement.
     return map(sql, null);
   }
@@ -577,10 +588,10 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      Map<Integer, B> map(Context context, Class<A> dbAdapterClass) {
+      Map<Long, B> map(Context context, Class<A> dbAdapterClass) {
 
     A db = open(context, dbAdapterClass);
-    Map<Integer, B> result = db.map();
+    Map<Long, B> result = db.map();
     db.close();
     return result;
   }
@@ -591,7 +602,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param selectionArgs
    * @return
    */
-  public Map<Integer, B> mapWhere(String whereClause, String[] selectionArgs) {
+  public Map<Long, B> mapWhere(String whereClause, String[] selectionArgs) {
     String sql = "SELECT * FROM " + tableName() + " WHERE " + whereClause;
     return map(sql, selectionArgs);
   }
@@ -607,10 +618,10 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      Map<Integer, B> mapWhere(Context context, Class<A> dbAdapterClass, String whereClause, String[] selectionArgs) {
+      Map<Long, B> mapWhere(Context context, Class<A> dbAdapterClass, String whereClause, String[] selectionArgs) {
 
     A db = open(context, dbAdapterClass);
-    Map<Integer, B> result = db.mapWhere(whereClause, selectionArgs);
+    Map<Long, B> result = db.mapWhere(whereClause, selectionArgs);
     db.close();
     return result;
   }
@@ -625,7 +636,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      Map<Integer, B> mapWhere(Context context, Class<A> dbAdapterClass, String whereClause) {
+      Map<Long, B> mapWhere(Context context, Class<A> dbAdapterClass, String whereClause) {
 
     return mapWhere(context, dbAdapterClass, whereClause, null);
   }
@@ -666,6 +677,40 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
   }
 
   /**
+   * Insert a bean into db (_id field of bean is ignored).
+   * @param bean
+   * @return bean, with _id is updated.
+   */
+  public B insert(B bean) {
+    ContentValues contentValues = bean.toContentValues();
+    contentValues.remove(COL_ID);
+    long id = database.insert(tableName(), null, contentValues);
+    if (id == -1) {
+      throw new RuntimeException("Error insert bean " + bean);
+    } else {
+      bean._id = id;
+    }
+    Log.v(TAG, "Insert " + bean);
+    return bean;
+  }
+
+  /**
+   * Insert a bean into db.
+   * @param context
+   * @param dbAdapterClass
+   * @param bean
+   * @return bean, with _id is updated.
+   */
+  public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
+      B insert(Context context, Class<A> dbAdapterClass, B bean) {
+
+    A db = open(context, dbAdapterClass);
+    B result = db.insert(bean);
+    db.close();
+    return result;
+  }
+
+  /**
    * Update data of a record (specified by its id).
    * @param bean contains the data to be updated and also the id of the record to be updated.
    * @return
@@ -695,8 +740,8 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
   /**
    * Update rows in the database.
    * <p>
-   * Notice: This use {@link SQLiteDatabase#execSQL(String, Object[])} to run the UPDATW statement,
-   * so it does not the number of rows affected.
+   * Notice: This use {@link SQLiteDatabase#execSQL(String, Object[])} to run the UPDATE statement,
+   * so it does not return the number of rows affected.
    * @param setClause
    * @param whereClause
    * @param bindArgs
@@ -712,8 +757,8 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
   /**
    * Update rows in the database.
    * <p>
-   * Notice: This use {@link SQLiteDatabase#execSQL(String, Object[])} to run the UPDATW statement,
-   * so it does not the number of rows affected.
+   * Notice: This use {@link SQLiteDatabase#execSQL(String, Object[])} to run the UPDATE statement,
+   * so it does not return the number of rows affected.
    * @param <A>
    * @param <B>
    * @param context
@@ -728,5 +773,84 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
     A db = open(context, dbAdapterClass);
     db.update(setClause, whereClause, bindArgs);
     db.close();
+  }
+
+  /**
+   * Deleted a record specified by id.
+   * @param id
+   * @return The deleted record.
+   */
+  public B delete(long id) {
+    B bean = find(id);
+    database.delete(tableName(), COL_ID + " = " + id, null);
+    return bean;
+  }
+
+  /**
+   * Deleted a record specified by id.
+   * @param <A>
+   * @param <B>
+   * @param context
+   * @param dbAdapterClass
+   * @param id
+   * @return The deleted record.
+   */
+  public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
+      B delete(Context context, Class<A> dbAdapterClass, long id) {
+
+    A db = open(context, dbAdapterClass);
+    B result = db.delete(id);
+    db.close();
+    return result;
+  }
+
+  /**
+   * Delete rows in the database.
+   * @param setClause
+   * @param whereClause
+   * @param bindArgs
+   */
+  public void delete(String whereClause, Object[] bindArgs) {
+    String sql = "DELETE FROM " + tableName();
+    if (whereClause != null) {
+      sql += " WHERE " + whereClause;
+    }
+    execSQL(sql, bindArgs);
+  }
+
+  /**
+   * Delete rows in the database.
+   * @param <A>
+   * @param <B>
+   * @param context
+   * @param dbAdapterClass
+   * @param setClause
+   * @param whereClause
+   * @param bindArgs
+   */
+  public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
+    void delete(Context context, Class<A> dbAdapterClass, String whereClause, Object[] bindArgs) {
+
+    A db = open(context, dbAdapterClass);
+    db.delete(whereClause, bindArgs);
+    db.close();
+  }
+
+  /**
+   * Get the unique record of the table.
+   * If there is no record, then create new one.
+   * @return
+   */
+  public B getUnique() {
+    B bean;
+    List<B> rows = findAll();
+    if (rows.size() == 0) {
+      // There is no record. Create one in the database.
+      bean = parseBean(null);
+      insert(bean);
+    } else {
+      bean = rows.get(0);
+    }
+    return bean;
   }
 }

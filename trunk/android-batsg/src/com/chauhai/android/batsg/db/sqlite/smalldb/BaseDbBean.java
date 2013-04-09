@@ -20,7 +20,7 @@ public class BaseDbBean extends BaseDb {
   /**
    * Primary key.
    */
-  public int _id;
+  public long _id;
 
   /**
    * Parse a cursor to a bean.
@@ -65,7 +65,9 @@ public class BaseDbBean extends BaseDb {
    */
   public void parse(Cursor cursor, CursorColumnIndex cursorColumnIndex) {
     try {
-      parseUsingReflection(cursor);
+      if (cursor != null) {
+        parseUsingReflection(cursor);
+      }
     } catch (Exception e) {
       throw ErrorUtil.runtimeException(e);
     }
@@ -148,7 +150,8 @@ public class BaseDbBean extends BaseDb {
           } else if (fieldType.equals(Double.TYPE)) {
             contentValues.put(fieldName, field.getDouble(this));
           } else if (fieldType.equals(String.class)) {
-            contentValues.put(fieldName, field.get(this).toString());
+            Object value = field.get(this);
+            contentValues.put(fieldName, value == null ? null : value.toString());
           } else {
             throw new RuntimeException("Not support " + field +
                 " type: " + fieldType);

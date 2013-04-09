@@ -257,4 +257,19 @@ public class JSONObjectUtil {
     return bundle;
   }
 
+  /**
+   * Wrapper for {@link JSONObject#get(String)}
+   * <p>
+   * A RuntimeException wraps the raised exception.
+   * @param json
+   * @param name
+   * @return
+   */
+  public static Object get(JSONObject json, String name) {
+    try {
+      return json.get(name);
+    } catch (JSONException e) {
+      throw ErrorUtil.runtimeException(e);
+    }
+  }
 }
