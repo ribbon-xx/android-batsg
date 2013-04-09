@@ -180,4 +180,9 @@ public class FileUtil {
 		fileWriter.flush();
 		fileWriter.close();
 	}
+
+	public static void delete(String filePath) {
+	  File file = new File(filePath);
+	  file.delete();
+	}
 }
