@@ -38,7 +38,7 @@ public class HttpUtil {
    * @throws Exception
    */
   public static String download(String url, String saveFilePath) throws Exception {
-    Log.d(TAG, "Download " + url);
+    Log.v(TAG, "Download " + url);
 
     // Return content (if saveFilePath is not specified).
     String returnStr = null;
@@ -50,7 +50,7 @@ public class HttpUtil {
     request.setURI(new URI(url));
 
     HttpResponse response = client.execute(request);
-    Log.d(TAG, "Download response: " + response.getStatusLine());
+    Log.v(TAG, "Download response: " + response.getStatusLine());
     if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
       throw new Exception("Error downloading file " + url);
     }
@@ -100,5 +100,27 @@ public class HttpUtil {
         new AuthScope(authHost, authPort),
         new UsernamePasswordCredentials(authUser, authPassword));
     return client;
+  }
+
+  /**
+   * Add a random string to the end of URL to prevent caching.
+   * @param url
+   * @return
+   */
+  public static String notCacheUrl(String url) {
+    return notCacheUrl(url, "timestamp");
+  }
+
+  /**
+   * Add a random string to the end of URL to prevent caching.
+   * @param url
+   * @param timeStampParamName
+   * @return
+   */
+  public static String notCacheUrl(String url, String timeStampParamName) {
+    // Use ? or & for appending parameter.
+    String mark = url.contains("?") ? "&" : "?";
+
+    return url + mark + timeStampParamName + "=" + System.currentTimeMillis();
   }
 }
