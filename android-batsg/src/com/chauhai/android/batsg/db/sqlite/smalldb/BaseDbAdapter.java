@@ -205,7 +205,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
       dbOpenHelper = createDbOpenHelper();
       database = dbOpenHelper.getWritableDatabase();
     }
-    Log.v(TAG, "open() " + database);
+    Log.v(TAG, "open() db " + database);
     return (A) this;
   }
 
@@ -213,6 +213,7 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * Close the database.
    */
   public void close() {
+    Log.v(TAG, "close() db " + database);
     dbOpenHelper.close();
   }
 
@@ -852,5 +853,21 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
       bean = rows.get(0);
     }
     return bean;
+  }
+
+  /**
+   * Get the unique record of the table.
+   * If there is no record, then create new one.
+   * @param context
+   * @param dbAdapterClass
+   * @return
+   */
+  public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
+      B getUnique(Context context, Class<A> dbAdapterClass) {
+
+    A db = open(context, dbAdapterClass);
+    B result = db.getUnique();
+    db.close();
+    return result;
   }
 }
