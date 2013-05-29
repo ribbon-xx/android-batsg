@@ -679,12 +679,25 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
 
   /**
    * Insert a bean into db (_id field of bean is ignored).
-   * @param bean
+   * @param bean Source bean.
    * @return bean, with _id is updated.
    */
   public B insert(B bean) {
+    return insert(bean, true);
+  }
+
+  /**
+   * Insert a bean into db.
+   * @param bean Source bean.
+   * @param ignoreId If true, then bean._id is ignored,
+   * so that new incremented _id is set.
+   * @return bean
+   */
+  public B insert(B bean, boolean ignoreId) {
     ContentValues contentValues = bean.toContentValues();
-    contentValues.remove(COL_ID);
+    if (ignoreId) {
+      contentValues.remove(COL_ID);
+    }
     long id = database.insert(tableName(), null, contentValues);
     if (id == -1) {
       throw new RuntimeException("Error insert bean " + bean);
