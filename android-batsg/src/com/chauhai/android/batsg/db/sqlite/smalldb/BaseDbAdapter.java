@@ -48,6 +48,11 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
 
   private static final String TAG = "BaseDbAdapter"; // Log tag.
 
+  /**
+   * Output log if set to true.
+   */
+  public static boolean log = false;
+
   // Column names.
   public static final String COL_ID = "_id";
 
@@ -205,7 +210,9 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
       dbOpenHelper = createDbOpenHelper();
       database = dbOpenHelper.getWritableDatabase();
     }
-    Log.v(TAG, "open() db " + database);
+    if (log) {
+      Log.v(TAG, "open() db " + database);
+    }
     return (A) this;
   }
 
@@ -213,7 +220,9 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * Close the database.
    */
   public void close() {
-    Log.v(TAG, "close() db " + database);
+    if (log) {
+      Log.v(TAG, "close() db " + database);
+    }
     dbOpenHelper.close();
   }
 
@@ -222,7 +231,9 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param sql
    */
   public void execSQL(String sql) {
-    Log.d(TAG, "sql: " + sql);
+    if (log) {
+      Log.v(TAG, "execSQL(" + sql + ")");
+    }
     database.execSQL(sql);
   }
 
@@ -232,7 +243,12 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param bindArgs
    */
   public void execSQL(String sql, Object[] bindArgs) {
-    Log.d(TAG, "execSQL(" + sql + ", " + DebugUtil.arrayToString(bindArgs) + ")");
+    if (bindArgs == null) {
+      bindArgs = new Object[0];
+    }
+    if (log) {
+      Log.v(TAG, "execSQL(" + sql + ", " + DebugUtil.arrayToString(bindArgs) + ")");
+    }
     database.execSQL(sql, bindArgs);
   }
 
@@ -243,7 +259,12 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public B find(String sql, String[] selectionArgs) {
-    Log.d(TAG, "sql: " + sql);
+    if (selectionArgs == null) {
+      selectionArgs = new String[0];
+    }
+    if (log) {
+      Log.v(TAG, "find(" + sql + ", " + DebugUtil.arrayToString(selectionArgs) + ")");
+    }
     Cursor cursor = database.rawQuery(sql, selectionArgs);
     // Parse result.
     B bean = null;
@@ -380,7 +401,12 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return
    */
   public List<B> findAll(String sql, String[] selectionArgs) {
-    Log.v(TAG, "findAll(" + sql + ", " + DebugUtil.arrayToString(selectionArgs) + ")");
+    if (selectionArgs == null) {
+      selectionArgs = new String[0];
+    }
+    if (log) {
+      Log.v(TAG, "findAll(" + sql + ", " + DebugUtil.arrayToString(selectionArgs) + ")");
+    }
     List<B> result = new ArrayList<B>(); // Return value.
     Cursor cursor = database.rawQuery(sql, selectionArgs);
     // Parse result.
@@ -652,6 +678,9 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @return the number of rows affected.
    */
   public int update(B bean, String whereClause, String[] whereArgs) {
+    if (whereArgs == null) {
+      whereArgs = new String[0];
+    }
     return database.update(tableName(), bean.toContentValues(), whereClause, whereArgs);
   }
 
@@ -704,7 +733,9 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
     } else {
       bean._id = id;
     }
-    Log.v(TAG, "Insert " + bean);
+    if (log) {
+      Log.v(TAG, "Insert " + bean);
+    }
     return bean;
   }
 
@@ -792,9 +823,17 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
   /**
    * Deleted a record specified by id.
    * @param id
+   */
+  public void delete(long id) {
+    database.delete(tableName(), COL_ID + " = " + id, null);
+  }
+
+  /**
+   * Deleted a record specified by id, return the deleted record.
+   * @param id
    * @return The deleted record.
    */
-  public B delete(long id) {
+  public B deleteBean(long id) {
     B bean = find(id);
     database.delete(tableName(), COL_ID + " = " + id, null);
     return bean;
@@ -807,13 +846,28 @@ public abstract class BaseDbAdapter<A extends BaseDbAdapter<A, B>, B extends Bas
    * @param context
    * @param dbAdapterClass
    * @param id
+   */
+  public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
+      void delete(Context context, Class<A> dbAdapterClass, long id) {
+
+    A db = open(context, dbAdapterClass);
+    db.close();
+  }
+
+  /**
+   * Deleted a record specified by id, return the deleted record.
+   * @param <A>
+   * @param <B>
+   * @param context
+   * @param dbAdapterClass
+   * @param id
    * @return The deleted record.
    */
   public static <A extends BaseDbAdapter<A, B>, B extends BaseDbBean>
-      B delete(Context context, Class<A> dbAdapterClass, long id) {
+      B deleteBean(Context context, Class<A> dbAdapterClass, long id) {
 
     A db = open(context, dbAdapterClass);
-    B result = db.delete(id);
+    B result = db.deleteBean(id);
     db.close();
     return result;
   }
