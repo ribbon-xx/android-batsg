@@ -1,0 +1,1 @@
+package com.chauhai.android.batsg.demo.db.sqlite.db;import android.content.Context;import com.chauhai.android.batsg.demo.db.sqlite.bean.BItem;/** * DB adapter class to access to table item. */public class DItem extends DbAdapter<DItem, BItem> {  /**   * Constructor.   *   * @param context   */  public DItem(Context context) {    super(context);  }}

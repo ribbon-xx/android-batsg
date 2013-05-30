@@ -114,13 +114,13 @@ public class HttpUtil {
   /**
    * Add a random string to the end of URL to prevent caching.
    * @param url
-   * @param timeStampParamName
+   * @param timeStampParamPrefix
    * @return
    */
-  public static String notCacheUrl(String url, String timeStampParamName) {
+  public static String notCacheUrl(String url, String timeStampParamPrefix) {
     // Use ? or & for appending parameter.
     String mark = url.contains("?") ? "&" : "?";
 
-    return url + mark + timeStampParamName + "=" + System.currentTimeMillis();
+    return url + mark + timeStampParamPrefix + "_" + System.currentTimeMillis() + "=";
   }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import com.chauhai.android.batsg.activity.BaseActivity;
 import com.chauhai.android.batsg.demo.activity.RoundBoxActivity;
 import com.chauhai.android.batsg.demo.activity.SplashActivity;
+import com.chauhai.android.batsg.demo.db.sqlite.DbDemoActivity;
 import com.chauhai.android.batsg.demo.location.GetLocationDemoActivity;
 import com.chauhai.android.batsg.demo.widget.ProportionalLayoutDemoActivity;
 import com.chauhai.android.batsg.demo.widget.RoundedCornerImageViewDemoActivity;
@@ -46,6 +47,9 @@ public class AndroidBatsgDemoActivity extends BaseActivity {
       break;
     case R.id.RoundBox:
       openActivity(RoundBoxActivity.class);
+      break;
+    case R.id.Db:
+      openActivity(DbDemoActivity.class);
       break;
     }
   }
