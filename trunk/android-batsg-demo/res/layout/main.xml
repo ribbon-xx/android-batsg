@@ -39,4 +39,10 @@
         android:text="RoundBox"
         android:onClick="onClickButton"
         />
+    <Button
+        android:id="@+id/Db"
+        style="@style/ToDemoButton"
+        android:text="Db"
+        android:onClick="onClickButton"
+        />
 </LinearLayout>

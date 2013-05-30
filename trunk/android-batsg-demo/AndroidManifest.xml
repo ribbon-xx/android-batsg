@@ -37,6 +37,9 @@
         <activity android:name=".widget.RoundedCornerImageViewDemoActivity"
             android:label="RoundedCornerImageViewDemo"
             />
+        <activity android:name=".db.sqlite.DbDemoActivity"
+            android:label="DbDemoActivity"
+            />
         
     </application>
 
