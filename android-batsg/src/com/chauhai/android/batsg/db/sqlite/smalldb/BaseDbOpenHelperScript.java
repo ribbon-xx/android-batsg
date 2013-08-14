@@ -12,6 +12,22 @@ import android.util.Log;
 import com.chauhai.android.batsg.util.ErrorUtil;
 import com.chauhai.android.batsg.util.FileUtil;
 
+/**
+ * Base class to create a subclass of SQLiteOpenHelper which creates and drops
+ * database tables by sqlite script.
+ * <p/>
+ * By default, these script files are put in assets/db folder of the application
+ * package, and named createDb.sql and dropDb.sql.
+ * <p/>
+ * You can change script file names by overwrite methods
+ * getCreateDbPathInAssets() and getDropDbPathInAssets().
+ * <p/>
+ * You can get the scripts from other source by overwrite methods
+ * getCreateDbSql() and getDropDbSql().
+ *
+ * @author umbalaconmeogia
+ *
+ */
 public class BaseDbOpenHelperScript extends SQLiteOpenHelper {
 
   private static final String TAG = "BaseDbOpenHelperScript";
